@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>非遗掌上工坊 - 中小学非遗教育轻量化解决方案</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/2.0.0/iconify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config={theme:{extend:{fontFamily:{inter:['Inter','sans-serif'],syne:['Syne','sans-serif']}}}}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;overflow-x:hidden}
+.font-syne{font-family:'Syne',sans-serif}
+@keyframes fadeInUpBlur{0%{opacity:0;transform:translateY(20px);filter:blur(10px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+.anim-fiu{animation:fadeInUpBlur .8s cubic-bezier(.2,.8,.2,1) both}
+.anim-d1{animation-delay:.1s}.anim-d2{animation-delay:.2s}.anim-d3{animation-delay:.3s}.anim-d4{animation-delay:.4s}
+@keyframes beam-drop{0%{transform:translateY(-100%)}100%{transform:translateY(500%)}}
+.beam{animation:beam-drop 5s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes pulse-glow{0%,100%{opacity:.3}50%{opacity:.6}}
+.pulse-glow{animation:pulse-glow 3s ease-in-out infinite}
+@keyframes spin-slow{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.spin-slow{animation:spin-slow 20s linear infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.float{animation:float 4s ease-in-out infinite}
+.dot-grid{background-image:radial-gradient(rgba(255,255,255,.15) 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(ellipse at center,black 40%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,black 40%,transparent 100%)}
+.glass{background:rgba(23,23,23,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.text-gradient{background:linear-gradient(135deg,#ef4444,#f97316,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.conic-border{background:conic-gradient(from 0deg,transparent 0deg 340deg,rgba(239,68,68,.5) 360deg)}
+.scroll-reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.2,.8,.2,1)}
+.scroll-reveal.visible{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0a0a0a}::-webkit-scrollbar-thumb{background:rgba(239,68,68,.3);border-radius:3px}
+.glow-card{position:relative;overflow:hidden}
+.glow-card::before{content:'';position:absolute;top:50%;left:50%;width:200%;height:200%;background:radial-gradient(circle,rgba(239,68,68,.06) 0%,transparent 70%);transform:translate(-50%,-50%);opacity:0;transition:opacity .5s}
+.glow-card:hover::before{opacity:1}
+</style>
+</head>
+<body class="font-inter">
+
+<!-- Ambient Glow -->
+<div class="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full pulse-glow pointer-events-none" style="background:radial-gradient(circle,rgba(239,68,68,.08) 0%,transparent 70%);filter:blur(120px);z-index:0"></div>
+
+<!-- ==================== NAVIGATION ==================== -->
+<nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#" class="font-syne font-bold text-xl tracking-tight flex items-center gap-2">
+      <span class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+        <span class="iconify text-red-500 text-sm" data-icon="mdi:hand-heart"></span>
+      </span>
+      非遗掌上工坊
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#about" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white transition-colors duration-300">项目介绍</a>
+      <a href="#advantages" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white transition-colors duration-300">核心优势</a>
+      <a href="#product" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white transition-colors duration-300">产品服务</a>
+      <a href="#market" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white transition-colors duration-300">市场洞察</a>
+      <a href="#compare" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white transition-colors duration-300">方案对比</a>
+      <a href="#roadmap" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white transition-colors duration-300">发展规划</a>
+      <a href="#contact" class="px-5 py-2 text-xs uppercase tracking-widest font-medium border border-red-500/30 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 rounded">联系我们</a>
+    </div>
+    <button id="mobileMenuBtn" class="md:hidden text-white">
+      <span class="iconify text-2xl" data-icon="mdi:menu"></span>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden px-6 pb-4 border-t border-white/5">
+    <div class="flex flex-col gap-3 pt-4">
+      <a href="#about" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white py-2 mobile-link">项目介绍</a>
+      <a href="#advantages" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white py-2 mobile-link">核心优势</a>
+      <a href="#product" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white py-2 mobile-link">产品服务</a>
+      <a href="#market" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white py-2 mobile-link">市场洞察</a>
+      <a href="#compare" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white py-2 mobile-link">方案对比</a>
+      <a href="#roadmap" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white py-2 mobile-link">发展规划</a>
+      <a href="#contact" class="text-xs uppercase tracking-widest text-red-500 hover:text-red-400 py-2 mobile-link">联系我们</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="min-h-screen relative flex items-center overflow-hidden pt-20">
+  <!-- ★ 图片1: Hero全屏背景 -->
+  <div class="absolute inset-0 z-0">
+    <img src="https://t1.chatglm.cn/file/6a0bd31c534dae200803f835.jpg?expired_at=1779591867&sign=a920e7006cebd5180966dd7d49ecbc80&ext=jpg" alt="非遗背景" class="w-full h-full object-cover opacity-25" style="filter:brightness(.6) contrast(1.2) saturate(.4)">
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/60 to-[#0a0a0a]"></div>
+    <div class="absolute inset-0 dot-grid opacity-30"></div>
+  </div>
+  <!-- Beams -->
+  <div class="absolute top-0 left-[20%] w-px h-20 overflow-hidden z-10">
+    <div class="w-full h-8 bg-gradient-to-b from-transparent via-red-500 to-transparent beam"></div>
+  </div>
+  <div class="absolute top-0 left-[75%] w-px h-20 overflow-hidden z-10">
+    <div class="w-full h-8 bg-gradient-to-b from-transparent via-red-500 to-transparent beam" style="animation-delay:2.5s"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="anim-fiu">
+          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-500/20 bg-red-500/5 text-red-400 text-xs uppercase tracking-widest mb-8">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+            中小学非遗教育轻量化解决方案
+          </span>
+        </div>
+        <h1 class="font-syne font-bold text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-[0.9] mb-6 anim-fiu anim-d1">
+          非遗掌上<br><span class="text-gradient">工坊</span>
+        </h1>
+        <p class="text-lg text-neutral-300 leading-relaxed mb-4 anim-fiu anim-d2">让非遗教育回归"动手"与"体验"</p>
+        <p class="text-sm text-neutral-400 leading-relaxed mb-10 max-w-lg anim-fiu anim-d3">通过数字化小程序与标准化手工材料包的一站式服务，为学校提供低成本、可落地、能常态化的非遗美育与劳育课程，让每一所中小学都能轻松开展高质量的非遗手工课。</p>
+        <div class="flex flex-wrap gap-4 anim-fiu anim-d4">
+          <a href="#about" class="group px-8 py-3.5 bg-red-500 text-white text-xs uppercase tracking-widest font-medium hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2 rounded">
+            了解项目 <span class="iconify group-hover:translate-x-1 transition-transform" data-icon="mdi:arrow-right"></span>
+          </a>
+          <a href="#advantages" class="px-8 py-3.5 border border-white/10 text-white text-xs uppercase tracking-widest font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300 rounded">核心优势</a>
+        </div>
+      </div>
+      <!-- ★ 图片2: Hero右侧主图 -->
+      <div class="relative anim-fiu anim-d3">
+        <div class="relative max-w-md mx-auto">
+          <div class="absolute inset-0 rounded-2xl conic-border spin-slow opacity-30"></div>
+          <img src="https://t1.chatglm.cn/file/6a0bd31c867b10d77f96bbb9.jpg?expired_at=1779591867&sign=b9cebfe9e9f00c03ac23e0a70a70456d&ext=jpg" alt="非遗手工" class="w-full rounded-2xl border border-white/10 relative z-10" style="aspect-ratio:4/3;object-fit:cover">
+          <div class="absolute -bottom-4 -right-4 w-32 h-32 rounded-xl border border-red-500/20 bg-red-500/5 backdrop-blur-sm z-20 flex flex-col items-center justify-center float">
+            <span class="text-2xl font-syne font-bold text-red-400">9.9</span>
+            <span class="text-[10px] text-neutral-400 uppercase tracking-widest">元/生/学期</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== STATS BAR ==================== -->
+<section class="relative z-10 border-y border-white/10">
+  <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+    <div class="p-8 text-center scroll-reveal group">
+      <div class="font-syne text-3xl md:text-4xl font-bold text-gradient group-hover:scale-110 transition-transform duration-700">250亿+</div>
+      <div class="text-xs text-neutral-400 uppercase tracking-widest mt-2">2025年市场规模</div>
+    </div>
+    <div class="p-8 text-center scroll-reveal group">
+      <div class="font-syne text-3xl md:text-4xl font-bold text-gradient group-hover:scale-110 transition-transform duration-700">20万+</div>
+      <div class="text-xs text-neutral-400 uppercase tracking-widest mt-2">全国义务教育学校</div>
+    </div>
+    <div class="p-8 text-center scroll-reveal group">
+      <div class="font-syne text-3xl md:text-4xl font-bold text-gradient group-hover:scale-110 transition-transform duration-700">9.9元</div>
+      <div class="text-xs text-neutral-400 uppercase tracking-widest mt-2">单学生学期成本</div>
+    </div>
+    <div class="p-8 text-center scroll-reveal group">
+      <div class="font-syne text-3xl md:text-4xl font-bold text-gradient group-hover:scale-110 transition-transform duration-700">100%</div>
+      <div class="text-xs text-neutral-400 uppercase tracking-widest mt-2">课后服务覆盖率</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ABOUT ==================== -->
+<section id="about" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+      <div class="scroll-reveal">
+        <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-4 block">Project Introduction</span>
+        <h2 class="font-syne text-4xl md:text-5xl font-semibold tracking-tighter mb-6">让每一所学校都能<br>轻松开展<span class="text-gradient">非遗课</span></h2>
+        <p class="text-sm text-neutral-300 leading-relaxed mb-4">当前中小学传统文化教育的落地需求持续升温，非遗进校园已成为政策引导下的刚需方向，但多数学校仍面临落地难、成本高的问题。很多机构试图用昂贵的高科技设备切入市场，却忽略了学校真正需要的是低成本、可落地、能常态化开展的教学服务。</p>
+        <p class="text-sm text-neutral-400 leading-relaxed mb-6"><strong class="text-white">非遗掌上工坊</strong>是面向中小学的轻量化非遗教育服务商，通过数字化小程序与标准化手工材料包的一站式服务，为学校提供低成本、可落地的非遗美育与劳育课程，服务全国K12学校及师生群体。</p>
+        <p class="text-sm text-neutral-400 leading-relaxed mb-8">用轻资产的"平台+材料包"模式，将单校课程成本降低至重资产方案的1/20；用标准化的教案、配套教师手册+短视频教程，让零基础老师也能快速上手；用数字化的作品墙、成果报告系统，帮学校快速沉淀教学成果。</p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl border border-white/5 hover:border-red-500/20 hover:bg-white/[0.02] transition-all duration-500">
+            <div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center mb-3"><span class="iconify text-red-500" data-icon="mdi:book-open-variant"></span></div>
+            <h4 class="text-sm font-medium mb-1">文化通俗化</h4>
+            <p class="text-xs text-neutral-500">把晦涩非遗历史变成孩子听得懂的故事</p>
+          </div>
+          <div class="p-4 rounded-xl border border-white/5 hover:border-red-500/20 hover:bg-white/[0.02] transition-all duration-500">
+            <div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center mb-3"><span class="iconify text-red-500" data-icon="mdi:clipboard-check"></span></div>
+            <h4 class="text-sm font-medium mb-1">教程标准化</h4>
+            <p class="text-xs text-neutral-500">复杂技艺拆解为45分钟课堂步骤</p>
+          </div>
+          <div class="p-4 rounded-xl border border-white/5 hover:border-red-500/20 hover:bg-white/[0.02] transition-all duration-500">
+            <div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center mb-3"><span class="iconify text-red-500" data-icon="mdi:package-variant"></span></div>
+            <h4 class="text-sm font-medium mb-1">材料集成化</h4>
+            <p class="text-xs text-neutral-500">散乱材料整合成安全"课上即用"包</p>
+          </div>
+          <div class="p-4 rounded-xl border border-white/5 hover:border-red-500/20 hover:bg-white/[0.02] transition-all duration-500">
+            <div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center mb-3"><span class="iconify text-red-500" data-icon="mdi:account-group"></span></div>
+            <h4 class="text-sm font-medium mb-1">成果社群化</h4>
+            <p class="text-xs text-neutral-500">小程序连接师生，展示作品互动</p>
+          </div>
+        </div>
+      </div>
+      <!-- ★ 图片3: 项目介绍区右侧 -->
+      <div class="scroll-reveal relative">
+        <img src="https://t1.chatglm.cn/file/6a0bd31c2eb7153fdca8748a.jpg?expired_at=1779591867&sign=38ca88a36aedbedb7c81c325d02c5757&ext=jpg" alt="非遗课堂" class="w-full rounded-2xl border border-white/10" style="aspect-ratio:4/3;object-fit:cover">
+        <div class="absolute -top-3 -left-3 w-16 h-16 border-l-2 border-t-2 border-red-500/30 rounded-tl-lg"></div>
+        <div class="absolute -bottom-3 -right-3 w-16 h-16 border-r-2 border-b-2 border-red-500/30 rounded-br-lg"></div>
+        <div class="absolute bottom-6 left-6 right-6 glass rounded-xl p-4 border border-white/5">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="iconify text-red-500" data-icon="mdi:heart"></span>
+            <span class="text-[10px] uppercase tracking-widest text-red-400 font-medium">项目使命</span>
+          </div>
+          <p class="text-xs text-neutral-300 italic">"让每个孩子都能在指尖触碰中成为传统文化的守护者"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ADVANTAGES ==================== -->
+<section id="advantages" class="py-24 relative" style="background:linear-gradient(180deg,transparent 0%,rgba(23,23,23,.3) 50%,transparent 100%)">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 scroll-reveal">
+      <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-4 block">Core Advantages</span>
+      <h2 class="font-syne text-4xl md:text-5xl font-semibold tracking-tighter mb-4">四大核心优势</h2>
+      <p class="text-sm text-neutral-400 max-w-2xl mx-auto">突破行业痛点，让非遗教育不再是少数学校的奢侈品，而是每一所学校都能轻松拥有的普惠课程</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="glow-card glass rounded-2xl p-8 border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal group">
+        <div class="flex items-start gap-5">
+          <div class="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-red-500/20 transition-colors">
+            <span class="iconify text-2xl text-red-500" data-icon="mdi:currency-cny"></span>
+          </div>
+          <div class="flex-1">
+            <span class="text-[10px] uppercase tracking-widest text-red-400 font-medium">极致低成本</span>
+            <h3 class="text-xl font-medium mt-1 mb-3">成本降至传统方案的1/20</h3>
+            <p class="text-sm text-neutral-400 leading-relaxed mb-5">单学生学期成本仅9.9元，对比传统非遗机构320元、文创材料包99元、线上平台69元、重资产实验室1200元+，用轻资产平台化模式将成本降低80%以上。</p>
+            <div class="flex gap-4">
+              <div class="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-center">
+                <div class="font-syne text-xl font-bold text-red-400">9.9元</div>
+                <div class="text-[10px] text-neutral-500">/生/学期</div>
+              </div>
+              <div class="px-4 py-2 rounded-lg bg-white/5 border border-white/5 text-center">
+                <div class="font-syne text-xl font-bold">399元</div>
+                <div class="text-[10px] text-neutral-500">/班级/学期</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="glow-card glass rounded-2xl p-8 border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal group">
+        <div class="flex items-start gap-5">
+          <div class="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-red-500/20 transition-colors">
+            <span class="iconify text-2xl text-red-500" data-icon="mdi:rocket-launch"></span>
+          </div>
+          <div class="flex-1">
+            <span class="text-[10px] uppercase tracking-widest text-red-400 font-medium">极致易落地</span>
+            <h3 class="text-xl font-medium mt-1 mb-3">零基础教师10分钟上手</h3>
+            <p class="text-sm text-neutral-400 leading-relaxed mb-5">联合非遗传承人与一线教师，将复杂非遗技艺拆解为适配45分钟课堂的标准化课程。配套完整教师手册、教案PPT与短视频教程，开箱即用，无需专业非遗老师。</p>
+            <div class="flex gap-4">
+              <div class="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-center">
+                <div class="font-syne text-xl font-bold text-red-400">10分钟</div>
+                <div class="text-[10px] text-neutral-500">备课</div>
+              </div>
+              <div class="px-4 py-2 rounded-lg bg-white/5 border border-white/5 text-center">
+                <div class="font-syne text-xl font-bold">开箱即用</div>
+                <div class="text-[10px] text-neutral-500">无需专业</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="glow-card glass rounded-2xl p-8 border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal group">
+        <div class="flex items-start gap-5">
+          <div class="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-red-500/20 transition-colors">
+            <span class="iconify text-2xl text-red-500" data-icon="mdi:robot"></span>
+          </div>
+          <div class="flex-1">
+            <span class="text-[10px] uppercase tracking-widest text-red-400 font-medium">AI赋能</span>
+            <h3 class="text-xl font-medium mt-1 mb-3">成果可量化、可展示</h3>
+            <p class="text-sm text-neutral-400 leading-relaxed mb-5">应用AI图像识别技术，自动识别学生上传的手工作品，一键生成"小小传承人"电子证书；自动汇总全校教学数据，生成可视化年度成果报告。</p>
+            <div class="flex gap-4">
+              <div class="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-center">
+                <div class="font-syne text-xl font-bold text-red-400">AI证书</div>
+                <div class="text-[10px] text-neutral-500">一键生成</div>
+              </div>
+              <div class="px-4 py-2 rounded-lg bg-white/5 border border-white/5 text-center">
+                <div class="font-syne text-xl font-bold">成果报告</div>
+                <div class="text-[10px] text-neutral-500">可视化</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="glow-card glass rounded-2xl p-8 border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal group">
+        <div class="flex items-start gap-5">
+          <div class="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-red-500/20 transition-colors">
+            <span class="iconify text-2xl text-red-500" data-icon="mdi:shield-check"></span>
+          </div>
+          <div class="flex-1">
+            <span class="text-[10px] uppercase tracking-widest text-red-400 font-medium">安全可靠</span>
+            <h3 class="text-xl font-medium mt-1 mb-3">全流程安全管控体系</h3>
+            <p class="text-sm text-neutral-400 leading-relaxed mb-5">所有材料严格遵循GB 6675《玩具安全》国家强制标准，优先选用无毒环保材质——食品级黏土、无毒植物染剂、无异味环保纸张。尖锐零件提前打磨钝化，每批次出厂前均经第三方权威机构安全检测。</p>
+            <div class="flex gap-4">
+              <div class="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-center">
+                <div class="font-syne text-xl font-bold text-red-400">国标认证</div>
+                <div class="text-[10px] text-neutral-500">GB 6675</div>
+              </div>
+              <div class="px-4 py-2 rounded-lg bg-white/5 border border-white/5 text-center">
+                <div class="font-syne text-xl font-bold">第三方检测</div>
+                <div class="text-[10px] text-neutral-500">权威机构</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PRODUCT ==================== -->
+<section id="product" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 scroll-reveal">
+      <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-4 block">Product & Service</span>
+      <h2 class="font-syne text-4xl md:text-5xl font-semibold tracking-tighter mb-4">产品与服务体系</h2>
+      <p class="text-sm text-neutral-400">课程 + 平台 + 材料 + 服务，一站式完整解决方案</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 mb-16">
+      <!-- ★ 图片4: 小程序卡片 -->
+      <div class="glow-card glass rounded-2xl overflow-hidden border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal group">
+        <div class="relative overflow-hidden">
+          <img src="https://t1.chatglm.cn/file/6a0bd31c867b10d77f96bbb8.jpg?expired_at=1779591867&sign=fa83b098f1a1aa90c8c35dec0a2c13bb&ext=jpg" alt="小程序" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+          <span class="absolute top-4 left-4 text-[10px] uppercase tracking-widest text-red-400 font-medium bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">核心载体</span>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-medium mb-3">非遗掌上工坊小程序</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed mb-4">微信轻应用，无需下载，师生扫码即用。云端"非遗微课堂"提供5-8分钟趣味短视频，由非遗传承人或卡通IP主讲；分步图解教程像"下厨房"一样拆解工艺；AI作品墙支持作品上传、电子证书生成、班级互动点赞。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">视频教程</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">分步图解</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">AI作品墙</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">成果统计</span>
+          </div>
+        </div>
+      </div>
+      <!-- ★ 图片5: 材料包卡片 -->
+      <div class="glow-card glass rounded-2xl overflow-hidden border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal group">
+        <div class="relative overflow-hidden">
+          <img src="https://t1.chatglm.cn/file/6a0bd31cc4e0c0347ffde463.jpg?expired_at=1779591867&sign=14d961ee0bad8c9b1f87e61b54d59f41&ext=jpg" alt="材料包" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+          <span class="absolute top-4 left-4 text-[10px] uppercase tracking-widest text-orange-400 font-medium bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">实体配套</span>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-medium mb-3">标准化非遗材料包</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed mb-4">按班级或课时分装的定制教具，所有材料提前预加工、经过安全检测。预切好的皮影零件、无毒植物染剂、特制黏土……教师开箱就能上课，无需额外准备。配套教师手册含教案PPT与课堂管理指南。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">安全检测</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">开箱即用</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">教师手册</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">按课时分装</span>
+          </div>
+        </div>
+      </div>
+      <!-- ★ 图片6: 校园活动卡片 -->
+      <div class="glow-card glass rounded-2xl overflow-hidden border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal group">
+        <div class="relative overflow-hidden">
+          <img src="https://t1.chatglm.cn/file/6a0bd31b534dae200803f832.jpg?expired_at=1779591867&sign=d5c7005703521c170dc63f93f131b3a7&ext=jpg" alt="校园活动" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+          <span class="absolute top-4 left-4 text-[10px] uppercase tracking-widest text-yellow-400 font-medium bg-yellow-500/10 px-3 py-1 rounded-full border border-yellow-500/20">增值服务</span>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-medium mb-3">定制化校园活动服务</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed mb-4">邀请国家级传承人进直播间与学生连麦互动；提供校园非遗节运营服务，协助布置展览、策划"非遗游园会"等特色活动；优秀作品可定制为明信片、笔记本、贴纸等文创周边。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">传承人直播</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">非遗游园会</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">作品展览</span>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-white/5 text-neutral-400">文创定制</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 使用流程 -->
+    <div class="scroll-reveal">
+      <h3 class="text-center font-syne text-2xl font-semibold tracking-tight mb-10">开箱即用的非遗手工课</h3>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div class="text-center p-4">
+          <div class="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-3"><span class="iconify text-red-500 text-xl" data-icon="mdi:qrcode-scan"></span></div>
+          <div class="text-xs font-medium mb-1">扫码使用</div>
+          <div class="text-[10px] text-neutral-500">微信小程序<br>无需下载</div>
+        </div>
+        <div class="text-center p-4">
+          <div class="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-3"><span class="iconify text-red-500 text-xl" data-icon="mdi:play-circle"></span></div>
+          <div class="text-xs font-medium mb-1">播放教程</div>
+          <div class="text-[10px] text-neutral-500">传承人主讲<br>分步图解</div>
+        </div>
+        <div class="text-center p-4">
+          <div class="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-3"><span class="iconify text-red-500 text-xl" data-icon="mdi:hand-back-right"></span></div>
+          <div class="text-xs font-medium mb-1">动手制作</div>
+          <div class="text-[10px] text-neutral-500">材料包开箱即用<br>跟着步骤做</div>
+        </div>
+        <div class="text-center p-4">
+          <div class="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-3"><span class="iconify text-red-500 text-xl" data-icon="mdi:cloud-upload"></span></div>
+          <div class="text-xs font-medium mb-1">上传作品</div>
+          <div class="text-[10px] text-neutral-500">AI生成证书<br>班级互动点赞</div>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-center p-4">
+          <div class="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-3"><span class="iconify text-red-500 text-xl" data-icon="mdi:chart-bar"></span></div>
+          <div class="text-xs font-medium mb-1">成果沉淀</div>
+          <div class="text-[10px] text-neutral-500">年度成果报告<br>特色办学展示</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== MARKET ==================== -->
+<section id="market" class="py-24 relative" style="background:linear-gradient(180deg,transparent 0%,rgba(23,23,23,.3) 50%,transparent 100%)">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 scroll-reveal">
+      <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-4 block">Market Insight</span>
+      <h2 class="font-syne text-4xl md:text-5xl font-semibold tracking-tighter mb-4">市场洞察与政策机遇</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-12 mb-16">
+      <!-- 政策支撑 -->
+      <div class="scroll-reveal">
+        <h3 class="text-xl font-medium mb-6 flex items-center gap-2">
+          <span class="iconify text-red-500" data-icon="mdi:gavel"></span> 政策支撑体系
+        </h3>
+        <div class="space-y-4">
+          <div class="flex gap-4 p-4 rounded-xl border border-white/5 hover:border-red-500/20 transition-all duration-500">
+            <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0"><span class="font-syne text-red-400 font-bold text-sm">01</span></div>
+            <div><h4 class="text-sm font-medium mb-1">文旅部明确支持</h4><p class="text-xs text-neutral-500 leading-relaxed">2024年对全国人大建议的答复中明确，支持将非遗内容系统性纳入美育、劳育课程体系，鼓励社会力量参与非遗教育服务供给</p></div>
+          </div>
+          <div class="flex gap-4 p-4 rounded-xl border border-white/5 hover:border-red-500/20 transition-all duration-500">
+            <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0"><span class="font-syne text-red-400 font-bold text-sm">02</span></div>
+            <div><h4 class="text-sm font-medium mb-1">劳动教育课时硬性要求</h4><p class="text-xs text-neutral-500 leading-relaxed">教育部规定劳动教育课时占中小学总课时的4%-6%，非遗手工课完美契合劳技课与美育课双重刚需</p></div>
+          </div>
+          <div class="flex gap-4 p-4 rounded-xl border border-white/5 hover:border-red-500/20 transition-all duration-500">
+            <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0"><span class="font-syne text-red-400 font-bold text-sm">03</span></div>
+            <div><h4 class="text-sm font-medium mb-1">地方政策同步推进</h4><p class="text-xs text-neutral-500 leading-relaxed">广州等地已出台政策引导社会力量参与非遗教育培训，为市场化服务机构进入校园提供合规通道</p></div>
+          </div>
+          <div class="flex gap-4 p-4 rounded-xl border border-white/5 hover:border-red-500/20 transition-all duration-500">
+            <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0"><span class="font-syne text-red-400 font-bold text-sm">04</span></div>
+            <div><h4 class="text-sm font-medium mb-1">传统文化进校园全覆盖</h4><p class="text-xs text-neutral-500 leading-relaxed">全面推进中华优秀传统文化进校园、美育教育全覆盖，非遗教育从"可选活动"变为"刚需课程"</p></div>
+          </div>
+        </div>
+      </div>
+      <!-- 行业痛点 + ★ 图片7 -->
+      <div class="scroll-reveal">
+        <div class="mb-6">
+          <img src="https://t1.chatglm.cn/file/6a0bd31c344a1dc9bad0cc24.jpg?expired_at=1779591867&sign=bf65fb07cb8e600cc6f195ba82104e07&ext=jpg" alt="市场趋势" class="w-full rounded-xl border border-white/10 mb-6" style="aspect-ratio:16/9;object-fit:cover">
+        </div>
+        <h3 class="text-xl font-medium mb-6 flex items-center gap-2">
+          <span class="iconify text-red-500" data-icon="mdi:alert-circle"></span> 行业核心痛点
+        </h3>
+        <div class="space-y-3">
+          <div class="p-4 rounded-xl border border-white/5 hover:border-red-500/20 transition-all duration-500">
+            <h4 class="text-sm font-medium mb-1">🏫 学校端：预算约束与落地需求矛盾</h4>
+            <p class="text-xs text-neutral-500">单校年度非遗专项预算普遍在1-5万元，无法承担昂贵设备投入与长期聘请传承人</p>
+          </div>
+          <div class="p-4 rounded-xl border border-white/5 hover:border-red-500/20 transition-all duration-500">
+            <h4 class="text-sm font-medium mb-1">👩‍🏫 教学端：专业师资严重短缺</h4>
+            <p class="text-xs text-neutral-500">现有美术、劳技教师大多不具备系统非遗技艺授课能力</p>
+          </div>
+          <div class="p-4 rounded-xl border border-white/5 hover:border-red-500/20 transition-all duration-500">
+            <h4 class="text-sm font-medium mb-1">📦 教学端：材料零散难管控</h4>
+            <p class="text-xs text-neutral-500">自主采购零散耗材耗时耗力，安全性、环保性、适配性难以统一把控</p>
+          </div>
+          <div class="p-4 rounded-xl border border-white/5 hover:border-red-500/20 transition-all duration-500">
+            <h4 class="text-sm font-medium mb-1">📚 教学端：缺少成体系课程支撑</h4>
+            <p class="text-xs text-neutral-500">传统讲座内容枯燥、理论偏多，学生看过就忘、学完无成果</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 行业趋势 -->
+    <div class="scroll-reveal glass rounded-2xl p-8 border border-white/5 text-center">
+      <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-3 block">Industry Trend</span>
+      <h3 class="font-syne text-2xl font-semibold tracking-tight mb-4">行业转型趋势</h3>
+      <p class="text-sm text-neutral-400 max-w-2xl mx-auto mb-6">非遗校园教育正从"单次活动"向"常态化教学"转型。重资产实验室因造价昂贵、使用率低逐渐被淘汰，轻量化、低成本、高性价比的解决方案成为市场绝对主流。</p>
+      <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-red-500/10 border border-red-500/20">
+        <span class="iconify text-red-500" data-icon="mdi:lightning-bolt"></span>
+        <span class="text-sm font-medium text-red-400">轻量化方案 = 市场绝对主流</span>
+      </div>
+      <p class="text-xs text-neutral-500 mt-4">这与我们的定位高度契合</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== COMPARE ==================== -->
+<section id="compare" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 scroll-reveal">
+      <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-4 block">Comparison</span>
+      <h2 class="font-syne text-4xl md:text-5xl font-semibold tracking-tighter mb-4">方案对比</h2>
+      <p class="text-sm text-neutral-400">全方位对比市场现有方案，差异化优势一目了然</p>
+    </div>
+    <div class="overflow-x-auto mb-12 scroll-reveal">
+      <table class="w-full min-w-[700px]">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="text-left py-4 px-4 text-xs uppercase tracking-widest text-neutral-400 font-medium">竞品类型</th>
+            <th class="text-left py-4 px-4 text-xs uppercase tracking-widest text-neutral-400 font-medium">代表主体</th>
+            <th class="text-center py-4 px-4 text-xs uppercase tracking-widest text-neutral-400 font-medium">单学生成本</th>
+            <th class="text-center py-4 px-4 text-xs uppercase tracking-widest text-neutral-400 font-medium">落地性</th>
+            <th class="text-center py-4 px-4 text-xs uppercase tracking-widest text-neutral-400 font-medium">服务完整性</th>
+            <th class="text-center py-4 px-4 text-xs uppercase tracking-widest text-neutral-400 font-medium">可规模化</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+            <td class="py-4 px-4 text-sm">传统非遗机构</td><td class="py-4 px-4 text-xs text-neutral-500">本地传承人工作室</td>
+            <td class="py-4 px-4 text-center text-sm">320元</td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-red-500/10 text-red-400">差</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-red-500/10 text-red-400">低</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-red-500/10 text-red-400">差</span></td>
+          </tr>
+          <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+            <td class="py-4 px-4 text-sm">文创材料包商家</td><td class="py-4 px-4 text-xs text-neutral-500">淘宝/1688商家</td>
+            <td class="py-4 px-4 text-center text-sm">99元</td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-400">中</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-red-500/10 text-red-400">低</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-400">中</span></td>
+          </tr>
+          <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+            <td class="py-4 px-4 text-sm">线上素质教育平台</td><td class="py-4 px-4 text-xs text-neutral-500">抖音/视频号</td>
+            <td class="py-4 px-4 text-center text-sm">69元</td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-red-500/10 text-red-400">差</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-400">中</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-400">高</span></td>
+          </tr>
+          <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+            <td class="py-4 px-4 text-sm">重资产实验室服务商</td><td class="py-4 px-4 text-xs text-neutral-500">高科技教育公司</td>
+            <td class="py-4 px-4 text-center text-sm">1200元+</td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-400">中</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-400">高</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-red-500/10 text-red-400">差</span></td>
+          </tr>
+          <tr class="hover:bg-red-500/5 transition-colors">
+            <td class="py-4 px-4 text-sm font-medium text-red-400">非遗掌上工坊</td><td class="py-4 px-4 text-xs text-neutral-400">本项目</td>
+            <td class="py-4 px-4 text-center text-sm font-bold text-red-400">9.9元</td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-400">高</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-400">高</span></td>
+            <td class="py-4 px-4 text-center"><span class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-400">高</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 scroll-reveal">
+      <div class="glass rounded-xl p-5 text-center border border-white/5 hover:border-red-500/20 transition-all duration-500">
+        <div class="text-xs text-neutral-500 mb-2">传统非遗机构</div>
+        <div class="font-syne text-2xl font-bold text-neutral-400 mb-1">320元<span class="text-xs font-normal">/生</span></div>
+        <div class="text-[10px] text-red-400">落地性差 · 不可规模化</div>
+      </div>
+      <div class="glass rounded-xl p-5 text-center border border-white/5 hover:border-red-500/20 transition-all duration-500">
+        <div class="text-xs text-neutral-500 mb-2">文创材料包商家</div>
+        <div class="font-syne text-2xl font-bold text-neutral-400 mb-1">99元<span class="text-xs font-normal">/生</span></div>
+        <div class="text-[10px] text-yellow-400">落地性中 · 服务低</div>
+      </div>
+      <div class="glass rounded-xl p-5 text-center border border-white/5 hover:border-red-500/20 transition-all duration-500">
+        <div class="text-xs text-neutral-500 mb-2">线上素质教育平台</div>
+        <div class="font-syne text-2xl font-bold text-neutral-400 mb-1">69元<span class="text-xs font-normal">/生</span></div>
+        <div class="text-[10px] text-yellow-400">落地性差 · 服务中</div>
+      </div>
+      <div class="glass rounded-xl p-5 text-center border border-white/5 hover:border-red-500/20 transition-all duration-500">
+        <div class="text-xs text-neutral-500 mb-2">重资产实验室</div>
+        <div class="font-syne text-2xl font-bold text-neutral-400 mb-1">1200元+<span class="text-xs font-normal">/生</span></div>
+        <div class="text-[10px] text-red-400">使用率低 · 不可规模化</div>
+      </div>
+      <div class="col-span-2 md:col-span-1 rounded-xl p-5 text-center border border-red-500/30 bg-red-500/5 relative overflow-hidden">
+        <span class="absolute top-2 right-3 text-[10px] text-red-400 font-bold uppercase">最优</span>
+        <div class="text-xs text-red-400 mb-2">非遗掌上工坊</div>
+        <div class="font-syne text-2xl font-bold text-red-400 mb-1">9.9元<span class="text-xs font-normal">/生</span></div>
+        <div class="text-[10px] text-green-400">落地性高 · 服务完整 · 可规模化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BUSINESS MODEL ==================== -->
+<section class="py-24 relative" style="background:linear-gradient(180deg,transparent 0%,rgba(23,23,23,.3) 50%,transparent 100%)">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 scroll-reveal">
+      <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-4 block">Business Model</span>
+      <h2 class="font-syne text-4xl md:text-5xl font-semibold tracking-tighter mb-4">多元盈利模式</h2>
+      <p class="text-sm text-neutral-400">从B2B核心订阅到B2C衍生零售，构建可持续商业闭环</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      <div class="glow-card glass rounded-2xl p-6 border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal">
+        <div class="flex items-center gap-2 mb-4"><span class="iconify text-red-500" data-icon="mdi:cash-multiple"></span><span class="text-[10px] uppercase tracking-widest text-red-400 font-medium">核心收入</span></div>
+        <h3 class="text-lg font-medium mb-2">B2B 核心订阅</h3>
+        <div class="font-syne text-3xl font-bold text-red-400 mb-1">399元<span class="text-sm font-normal text-neutral-400">/班级/学期</span></div>
+        <p class="text-xs text-neutral-500 leading-relaxed">小程序权限 + 16节非遗课材料包 + 全程教学服务支持，预期续费率80%</p>
+      </div>
+      <div class="glow-card glass rounded-2xl p-6 border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal">
+        <div class="flex items-center gap-2 mb-4"><span class="iconify text-orange-500" data-icon="mdi:domain"></span><span class="text-[10px] uppercase tracking-widest text-orange-400 font-medium">规模收入</span></div>
+        <h3 class="text-lg font-medium mb-2">B2G 项目服务</h3>
+        <div class="font-syne text-3xl font-bold text-orange-400 mb-1">20万<span class="text-sm font-normal text-neutral-400">/区县/年</span></div>
+        <p class="text-xs text-neutral-500 leading-relaxed">承接教育局课后服务项目，批量覆盖区域内学校，一次性接入数十所学校</p>
+      </div>
+      <div class="glow-card glass rounded-2xl p-6 border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal">
+        <div class="flex items-center gap-2 mb-4"><span class="iconify text-yellow-500" data-icon="mdi:shopping"></span><span class="text-[10px] uppercase tracking-widest text-yellow-400 font-medium">补充收入</span></div>
+        <h3 class="text-lg font-medium mb-2">B2C 衍生零售</h3>
+        <div class="font-syne text-3xl font-bold text-yellow-400 mb-1">29.9元<span class="text-sm font-normal text-neutral-400">亲子材料包</span></div>
+        <p class="text-xs text-neutral-500 leading-relaxed">小程序商城售卖亲子版材料包与家庭年度课程卡，满足周末与假期亲子教育需求</p>
+      </div>
+      <div class="glow-card glass rounded-2xl p-6 border border-white/5 hover:border-red-500/20 transition-all duration-500 scroll-reveal">
+        <div class="flex items-center gap-2 mb-4"><span class="iconify text-purple-500" data-icon="mdi:palette"></span><span class="text-[10px] uppercase tracking-widest text-purple-400 font-medium">增值收入</span></div>
+        <h3 class="text-lg font-medium mb-2">B2B2C 文创增值</h3>
+        <div class="font-syne text-3xl font-bold text-purple-400 mb-1">19.9元<span class="text-sm font-normal text-neutral-400">文创周边</span></div>
+        <p class="text-xs text-neutral-500 leading-relaxed">学生优秀作品数字化定制明信片、笔记本、贴纸等，学校批量采购或学生单独购买</p>
+      </div>
+    </div>
+    <!-- 三年规划 -->
+    <div class="grid md:grid-cols-3 gap-6 scroll-reveal">
+      <div class="glass rounded-2xl p-6 border border-white/5 text-center">
+        <div class="text-xs text-neutral-500 mb-2">第一年 · 试点期</div>
+        <div class="font-syne text-4xl font-bold text-gradient mb-2">20万</div>
+        <div class="text-xs text-neutral-400 mb-4">年度营收 · 净利润2万</div>
+        <div class="space-y-2 text-left">
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>合作学校15所</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>覆盖班级120个</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>净利率10%</div>
+        </div>
+      </div>
+      <div class="glass rounded-2xl p-6 border border-white/5 text-center">
+        <div class="text-xs text-neutral-500 mb-2">第二年 · 扩张期</div>
+        <div class="font-syne text-4xl font-bold text-gradient mb-2">80万</div>
+        <div class="text-xs text-neutral-400 mb-4">年度营收 · 净利润15万</div>
+        <div class="space-y-2 text-left">
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>合作学校50所</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>覆盖班级400个</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>净利率18.75%</div>
+        </div>
+      </div>
+      <div class="glass rounded-2xl p-6 border border-red-500/20 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
+        <div class="text-xs text-neutral-500 mb-2">第三年 · 稳定期</div>
+        <div class="font-syne text-4xl font-bold text-gradient mb-2">200万</div>
+        <div class="text-xs text-neutral-400 mb-4">年度营收 · 净利润60万</div>
+        <div class="space-y-2 text-left">
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>合作学校80所+</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>覆盖班级640个</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-400"><span class="iconify text-red-500 text-sm" data-icon="mdi:check-circle"></span>净利率30%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ROADMAP ==================== -->
+<section id="roadmap" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 scroll-reveal">
+      <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-4 block">Development Roadmap</span>
+      <h2 class="font-syne text-4xl md:text-5xl font-semibold tracking-tighter mb-4">发展路径</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="scroll-reveal">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center"><span class="font-syne font-bold text-red-400">1</span></div>
+          <div><h3 class="text-lg font-medium">短期目标</h3><span class="text-[10px] text-neutral-500 uppercase tracking-widest">Phase 1 · 1年内</span></div>
+        </div>
+        <div class="pl-6 border-l border-white/10 space-y-4">
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">完成小程序全功能打磨与10门核心课程</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">落地15所试点合作学校</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">完成20万元年度营收，初步盈利</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">获取教育局试点背书</span></div>
+        </div>
+      </div>
+      <div class="scroll-reveal">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center"><span class="font-syne font-bold text-red-400">2</span></div>
+          <div><h3 class="text-lg font-medium">中期目标</h3><span class="text-[10px] text-neutral-500 uppercase tracking-widest">Phase 2 · 2-3年</span></div>
+        </div>
+        <div class="pl-6 border-l border-white/10 space-y-4">
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">覆盖区域80%目标学校，合作突破100所</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">拓展2-3个河北省内周边地市</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">推出30门以上标准化课程</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">年度营收200万元，净利润50万+</span></div>
+        </div>
+      </div>
+      <div class="scroll-reveal">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center"><span class="font-syne font-bold text-red-400">3</span></div>
+          <div><h3 class="text-lg font-medium">长期规划</h3><span class="text-[10px] text-neutral-500 uppercase tracking-widest">Phase 3 · 5年以上</span></div>
+        </div>
+        <div class="pl-6 border-l border-white/10 space-y-4">
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">打造全国性非遗校园教育服务平台</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">累计服务超过1000所中小学</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">覆盖百万级学生群体</span></div>
+          <div class="flex items-start gap-3"><span class="iconify text-red-500 mt-0.5 flex-shrink-0" data-icon="mdi:checkbox-marked-circle"></span><span class="text-sm text-neutral-300">参与行业标准制定，成为领域标杆</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<section id="contact" class="py-24 relative overflow-hidden" style="background:linear-gradient(180deg,transparent 0%,rgba(239,68,68,.03) 50%,transparent 100%)">
+  <div class="absolute inset-0 dot-grid opacity-20"></div>
+  <div class="max-w-3xl mx-auto px-6 text-center relative z-10 scroll-reveal">
+    <span class="text-xs uppercase tracking-widest text-red-400 font-medium mb-4 block">Join Us</span>
+    <h2 class="font-syne text-4xl md:text-5xl font-semibold tracking-tighter mb-6">让非遗教育回归动手与体验</h2>
+    <p class="text-sm text-neutral-400 leading-relaxed mb-10 max-w-xl mx-auto">我们不制造噱头，我们提供真正落地的教育服务。通过"非遗掌上工坊"，我们希望看到的是孩子们手上沾满颜料和泥土，脸上洋溢着创造的快乐，让每个孩子都能感受到传统文化的魅力。</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="mailto:2026625875@qq.com" class="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-500 text-white text-xs uppercase tracking-widest font-medium hover:bg-white hover:text-black transition-all duration-300 rounded">
+        <span class="iconify" data-icon="mdi:email"></span> 联系合作
+      </a>
+      <a href="#" class="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/10 text-white text-xs uppercase tracking-widest font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300 rounded">
+        <span class="iconify" data-icon="mdi:download"></span> 下载方案
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="border-t border-white/5 py-16">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-3 gap-12 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center"><span class="iconify text-red-500 text-sm" data-icon="mdi:hand-heart"></span></span>
+          <span class="font-syne font-bold text-lg">非遗掌上工坊</span>
+        </div>
+        <p class="text-xs text-neutral-500 leading-relaxed">中小学非遗进校园轻量化解决方案服务商，让每一所学校都能轻松开展高质量的非遗手工课。</p>
+      </div>
+      <div>
+        <h4 class="text-xs uppercase tracking-widest text-neutral-400 font-medium mb-4">快速链接</h4>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="#about" class="text-xs text-neutral-500 hover:text-white transition-colors">项目介绍</a>
+          <a href="#market" class="text-xs text-neutral-500 hover:text-white transition-colors">市场洞察</a>
+          <a href="#advantages" class="text-xs text-neutral-500 hover:text-white transition-colors">核心优势</a>
+          <a href="#compare" class="text-xs text-neutral-500 hover:text-white transition-colors">方案对比</a>
+          <a href="#product" class="text-xs text-neutral-500 hover:text-white transition-colors">产品服务</a>
+          <a href="#roadmap" class="text-xs text-neutral-500 hover:text-white transition-colors">发展规划</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-xs uppercase tracking-widest text-neutral-400 font-medium mb-4">联系方式</h4>
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-xs text-neutral-500"><span class="iconify text-red-500" data-icon="mdi:map-marker"></span>河北省石家庄市</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-500"><span class="iconify text-red-500" data-icon="mdi:email"></span>2026625875@qq.com</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-500"><span class="iconify text-red-500" data-icon="mdi:cellphone"></span>微信小程序搜索"非遗掌上工坊"</div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-neutral-600">© 2025 非遗掌上工坊. 让非遗教育触手可及.</p>
+      <p class="text-xs text-neutral-600 italic">让每个孩子都能在指尖触碰中成为传统文化的守护者</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Mobile menu
+const mBtn=document.getElementById('mobileMenuBtn'),mMenu=document.getElementById('mobileMenu');
+mBtn.addEventListener('click',()=>mMenu.classList.toggle('hidden'));
+document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>mMenu.classList.add('hidden')));
+
+// Scroll reveal
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.scroll-reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
