@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>科大黍粟超市顾客使用体验调研 — 第9-16题数据分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f0f2f5;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --text-secondary: #555;
+    --border: #e0e0e0;
+    --accent: #4A90D9;
+    --tag-bg: #e8f0fe;
+    --tag-text: #1967d2;
+    --analysis-bg: #f8f9fb;
+    --analysis-border: #4A90D9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 0;
+  }
+  .header {
+    background: linear-gradient(135deg, #4A90D9, #5B8DEF);
+    color: #fff;
+    padding: 40px 30px;
+    text-align: center;
+  }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .header p { font-size: 14px; opacity: 0.9; }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+  .summary-bar {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .summary-item { text-align: center; min-width: 120px; }
+  .summary-item .num { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .summary-item .label { font-size: 13px; color: var(--text-secondary); }
+
+  .question-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .q-badge {
+    background: var(--accent);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .q-type {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .q-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    min-width: 200px;
+  }
+  .chart-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 20px;
+  }
+  .chart-half { max-width: 480px; }
+  .chart-full { max-width: 820px; }
+  .analysis {
+    background: var(--analysis-bg);
+    border-left: 4px solid var(--analysis-border);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 22px;
+    font-size: 14.5px;
+    color: #333;
+  }
+  .analysis p { margin-bottom: 6px; }
+  .analysis p:last-child { margin-bottom: 0; }
+  .analysis .highlight { color: #c0392b; font-weight: 600; }
+  .analysis .insight {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #ccc;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+  @media (max-width: 600px) {
+    .question-card { padding: 20px 16px; }
+    .header h1 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>科大黍粟超市顾客使用体验调研报告</h1>
+  <p>第9题 — 第16题 数据可视化与分析 | 有效填写人次：132人</p>
+</div>
+
+<div class="container">
+
+  <div class="summary-bar">
+    <div class="summary-item"><div class="num">8</div><div class="label">覆盖题目</div></div>
+    <div class="summary-item"><div class="num">132</div><div class="label">有效样本</div></div>
+    <div class="summary-item"><div class="num">3.88</div><div class="label">私域活动均分</div></div>
+    <div class="summary-item"><div class="num">56.82%</div><div class="label">偏好小程序</div></div>
+    <div class="summary-item"><div class="num">68.18%</div><div class="label">偏好宿舍配送</div></div>
+  </div>
+
+  <!-- ========== 第9题 ========== -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-badge">第9题</span>
+      <span class="q-type">单选题</span>
+      <span class="q-title">您日常获取校内购物优惠信息的渠道是？</span>
+    </div>
+    <div class="chart-wrapper chart-half">
+      <canvas id="chart9"></canvas>
+    </div>
+    <div class="analysis">
+      <p>• <span class="highlight">40.15%</span>（53人）的学生几乎不会主动查看优惠信息，占比最高，说明近半数群体对优惠信息处于"被动忽略"状态。</p>
+      <p>• 校园海报宣传栏与班级/宿舍群转发各占 <span class="highlight">18.94%</span>（各25人），并列第二，是触及主动关注型学生的两大核心渠道。</p>
+      <p>• 商家微信社群12.88%（17人），短视频平台仅9.09%（12人），影响力有限。</p>
+      <p class="insight">启示：超市需重点突破"不看优惠"的沉默群体，海报+社群双渠道触达是当前最有效路径，短视频可作为补充。</p>
+    </div>
+  </div>
+
+  <!-- ========== 第10题 ========== -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-badge">第10题</span>
+      <span class="q-type">单选题</span>
+      <span class="q-title">若校园超市搭建线上私域，您更偏好哪种入驻形式？</span>
+    </div>
+    <div class="chart-wrapper chart-half">
+      <canvas id="chart10"></canvas>
+    </div>
+    <div class="analysis">
+      <p>• <span class="highlight">56.82%</span>（75人）偏好线上小程序，以绝对优势成为最受欢迎的私域载体，远超其他选项。</p>
+      <p>• 微信社群21.21%（28人）居次，多种形式搭配使用13.64%（18人）位列第三。</p>
+      <p>• 企业微信好友仅4.55%（6人），均不感兴趣3.79%（5人），二者吸引力极低。</p>
+      <p class="insight">启示：应优先开发小程序作为私域核心平台，辅以微信社群形成互补，企业微信好友模式可暂缓推进。</p>
+    </div>
+  </div>
+
+  <!-- ========== 第11题 ========== -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-badge">第11题</span>
+      <span class="q-type">矩阵量表题</span>
+      <span class="q-title">请为以下私域活动模式打分（1分完全不吸引—5分极具吸引力）</span>
+    </div>
+    <div class="chart-wrapper chart-full">
+      <canvas id="chart11"></canvas>
+    </div>
+    <div class="analysis">
+      <p>• <span class="highlight">学生专属拼团采购</span>均分最高（4.07分），45.45%给4分、34.85%给5分，合计80%给予正面评价，最受欢迎。</p>
+      <p>• 积分累计兑换商品3.98分（4分40.91%、5分34.85%），早晚时段限时秒杀3.91分（5分37.88%），均获较高认可。</p>
+      <p>• 节日限定团购礼包3.84分居中，新品提前预约锁定仅 <span class="highlight">3.61分</span> 最低，9.09%给1分、6.06%给2分，吸引力明显偏弱。</p>
+      <p>• 矩阵整体平均分3.88，4分和5分合计占比超70%，说明私域活动整体设计方向获学生认可。</p>
+      <p class="insight">启示：拼团采购和积分兑换是核心抓手应优先上线；新品预约锁定需重新设计激励机制以提升吸引力。</p>
+    </div>
+  </div>
+
+  <!-- ========== 第12题 ========== -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-badge">第12题</span>
+      <span class="q-type">多选题</span>
+      <span class="q-title">加入超市私域后，您希望享受哪些差异化权益？</span>
+    </div>
+    <div class="chart-wrapper chart-full">
+      <canvas id="chart12"></canvas>
+    </div>
+    <div class="analysis">
+      <p>• <span class="highlight">线下购物额外折扣</span>以71.97%（95人）高居榜首，价格优惠是学生加入私域的首要驱动力。</p>
+      <p>• 满额宿舍配送服务53.79%（71人）、免费零食小样申领50%（66人）紧随其后，形成第二梯队。</p>
+      <p>• 新品优先选购资格41.67%（55人）、临期商品专属低价39.39%（52人）居中。</p>
+      <p>• 专属客服快速答疑仅15.91%（21人），需求最低。</p>
+      <p class="insight">启示：折扣+配送+小样构成三大核心权益组合，应作为私域会员的基础权益包；专属客服可针对高频用户定向提供。</p>
+    </div>
+  </div>
+
+  <!-- ========== 第13题 ========== -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-badge">第13题</span>
+      <span class="q-type">单选题</span>
+      <span class="q-title">您可接受社群推送活动消息的频次为？</span>
+    </div>
+    <div class="chart-wrapper chart-half">
+      <canvas id="chart13"></canvas>
+    </div>
+    <div class="analysis">
+      <p>• 每周2-3次 <span class="highlight">37.88%</span>（50人）和每周1次 <span class="highlight">34.09%</span>（45人）是主流接受频次，两者合计超72%。</p>
+      <p>• 每月1-2次12.88%（17人），说明部分学生倾向低频接收。</p>
+      <p>• 每日推送仅7.58%（10人），与拒绝任何推送的7.58%（10人）持平，说明日推频次几乎不被接受。</p>
+      <p class="insight">启示：每周1-3次是最佳推送节奏区间，既保持活跃又避免打扰；每日推送应严格禁止。</p>
+    </div>
+  </div>
+
+  <!-- ========== 第14题 ========== -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-badge">第14题</span>
+      <span class="q-type">多选题</span>
+      <span class="q-title">哪些因素会降低您留在超市私域渠道的意愿？</span>
+    </div>
+    <div class="chart-wrapper chart-full">
+      <canvas id="chart14"></canvas>
+    </div>
+    <div class="analysis">
+      <p>• <span class="highlight">广告消息过多刷屏</span>以65.91%（87人）居首，是最大的流失风险因素。</p>
+      <p>• 优惠力度低于校外平台57.58%（76人）与活动流程繁琐操作复杂57.58%（76人）并列第二，说明"性价比不足"和"操作麻烦"同等致命。</p>
+      <p>• 售后问题无人处理46.97%（62人），群内氛围杂乱管理差40.15%（53人），均属中高水平风险。</p>
+      <p>• 仅12.88%（17人）表示无任何情况会主动退出，说明绝大多数学生有明确的流失触发条件。</p>
+      <p class="insight">启示：控制推送频率+保证优惠竞争力+简化活动流程是留存的三大防线，售后响应和社群管理也不可忽视。</p>
+    </div>
+  </div>
+
+  <!-- ========== 第15题 ========== -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-badge">第15题</span>
+      <span class="q-type">单选题</span>
+      <span class="q-title">线上选购超市商品时，您更倾向的取货方式是？</span>
+    </div>
+    <div class="chart-wrapper chart-half">
+      <canvas id="chart15"></canvas>
+    </div>
+    <div class="analysis">
+      <p>• <span class="highlight">指定宿舍楼下配送</span>以68.18%（90人）绝对领先，"送货到楼"是线上购物的核心履约诉求。</p>
+      <p>• 门店现场即时自提18.18%（24人），适合急需或顺路场景。</p>
+      <p>• 固定点位集中存放9.85%（13人），不使用线上选购功能仅3.79%（5人）。</p>
+      <p class="insight">启示：线上业务成败取决于宿舍配送能力，应将"满额宿舍配送"作为核心服务承诺；自提可作为零门槛补充选项。</p>
+    </div>
+  </div>
+
+  <!-- ========== 第16题 ========== -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-badge">第16题</span>
+      <span class="q-type">多选题</span>
+      <span class="q-title">您认为校园超市私域社群可以新增哪些互动玩法？</span>
+    </div>
+    <div class="chart-wrapper chart-full">
+      <canvas id="chart16"></canvas>
+    </div>
+    <div class="analysis">
+      <p>• <span class="highlight">定期抽奖免单活动</span>以62.12%（82人）最受期待，"免单"对学生的吸引力最强。</p>
+      <p>• 学生好物分享征集54.55%（72人）、组队拼单砍价活动46.21%（61人）分列二三位，社交属性玩法受欢迎。</p>
+      <p>• 需求征集定制采购37.12%（49人），闲置食品互换板块31.06%（41人）居后。</p>
+      <p>• 13.64%（18人）表示不需要额外互动活动，说明少数学生仅关注购物本身。</p>
+      <p class="insight">启示：抽奖免单+好物分享+拼单砍价是三大互动方向，兼顾了利益驱动与社交驱动，可作为社群运营的活动矩阵。</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  科大黍粟超市顾客使用体验调研 · 第9-16题数据分析报告 · 有效样本132人
+</div>
+
+<script>
+// ===== 调色板 =====
+const PALETTE = ['#5B8FF9','#5AD8A6','#F6BD16','#E86452','#6DC8EC','#945FB9','#FF9845','#1E9493'];
+const PIE_COLORS = ['#5B8FF9','#5AD8A6','#F6BD16','#E86452','#6DC8EC','#945FB9'];
+
+Chart.defaults.font.family = '"PingFang SC","Microsoft YaHei",Arial,sans-serif';
+Chart.defaults.color = '#555';
+Chart.defaults.font.size = 13;
+
+const commonPieOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { position: 'right', labels: { boxWidth: 14, padding: 12, font: { size: 12.5 } } },
+    tooltip: {
+      callbacks: {
+        label: function(ctx) {
+          let label = ctx.label || '';
+          let val = ctx.raw;
+          return `${label}: ${val}人 (${val}% — 见数据)`;
+        }
+      }
+    }
+  }
+};
+
+// 统一构造 tooltip（人数+百分比）
+function makeTooltipOpts(total) {
+  return {
+    callbacks: {
+      label: function(ctx) {
+        let label = ctx.label || '';
+        let val = ctx.raw;
+        let pct = (val / total * 100).toFixed(2);
+        return `${label}: ${val}人 (${pct}%)`;
+      }
+    }
+  };
+}
+
+// ===== 第9题 饼图 =====
+new Chart(document.getElementById('chart9'), {
+  type: 'pie',
+  data: {
+    labels: ['几乎不会主动查看优惠','校园海报宣传栏','班级/宿舍群转发','商家微信社群','短视频平台'],
+    datasets: [{
+      data: [53, 25, 25, 17, 12],
+      backgroundColor: PIE_COLORS,
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: { ...commonPieOpts, plugins: { ...commonPieOpts.plugins, tooltip: makeTooltipOpts(132),
+    tooltip2: { callbacks: { label: function(c){ let v=c.raw; return `${c.label}: ${v}人 (${(v/132*100).toFixed(2)}%)`; } } }
+  } }
+});
+
+// ===== 第10题 环形图 =====
+new Chart(document.getElementById('chart10'), {
+  type: 'doughnut',
+  data: {
+    labels: ['线上小程序','微信社群','多种形式搭配使用','企业微信好友','均不感兴趣'],
+    datasets: [{
+      data: [75, 28, 18, 6, 5],
+      backgroundColor: PIE_COLORS,
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: { ...commonPieOpts, cutout: '45%',
+    plugins: { ...commonPieOpts.plugins, tooltip: makeTooltipOpts(132) } }
+});
+
+// ===== 第11题 柱状图（平均分） =====
+new Chart(document.getElementById('chart11'), {
+  type: 'bar',
+  data: {
+    labels: ['学生专属拼团采购','积分累计兑换商品','早晚时段限时秒杀','节日限定团购礼包','新品提前预约锁定'],
+    datasets: [{
+      label: '平均分（满分5分）',
+      data: [4.07, 3.98, 3.91, 3.84, 3.61],
+      backgroundColor: ['#5B8FF9','#5AD8A6','#F6BD16','#FF9845','#E86452'],
+      borderRadius: 6,
+      barThickness: 38
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => `平均分: ${ctx.raw} 分` } },
+      datalabels: false
+    },
+    scales: {
+      x: { beginAtZero: true, max: 5, title: { display: true, text: '平均分（满分5分）' }, grid: { color: '#eee' } },
+      y: { grid: { display: false } }
+    },
+    // 在柱子上显示数值
+    animation: {
+      onComplete: function() {
+        const ctx = this.ctx;
+        ctx.font = '13px "PingFang SC"';
+        ctx.fillStyle = '#333';
+        this.data.datasets[0].data.forEach((val, i) => {
+          const meta = this.getDatasetMeta(0).data[i];
+          ctx.textAlign = 'left';
+          ctx.fillText(val + '分', meta.x + 6, meta.y + 4);
+        });
+      }
+    }
+  }
+});
+
+// ===== 第12题 水平柱状图（多选） =====
+new Chart(document.getElementById('chart12'), {
+  type: 'bar',
+  data: {
+    labels: ['线下购物额外折扣','满额宿舍配送服务','免费零食小样申领','新品优先选购资格','临期商品专属低价','专属客服快速答疑'],
+    datasets: [{
+      label: '选择比例',
+      data: [95, 71, 66, 55, 52, 21],
+      backgroundColor: ['#E86452','#5B8FF9','#5AD8A6','#F6BD16','#FF9845','#945FB9'],
+      borderRadius: 6,
+      barThickness: 30
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const pct = (ctx.raw / 132 * 100).toFixed(2);
+        return `${ctx.raw}人 (${pct}%)`;
+      }}}
+    },
+    scales: {
+      x: { beginAtZero: true, max: 105, title: { display: true, text: '选择人数（共132人，多选）' }, grid: { color: '#eee' } },
+      y: { grid: { display: false }, ticks: { font: { size: 12.5 } } }
+    },
+    animation: {
+      onComplete: function() {
+        const ctx = this.ctx;
+        ctx.font = '12px "PingFang SC"';
+        ctx.fillStyle = '#333';
+        this.data.datasets[0].data.forEach((val, i) => {
+          const meta = this.getDatasetMeta(0).data[i];
+          const pct = (val / 132 * 100).toFixed(1);
+          ctx.textAlign = 'left';
+          ctx.fillText(`${val} (${pct}%)`, meta.x + 6, meta.y + 4);
+        });
+      }
+    }
+  }
+});
+
+// ===== 第13题 饼图 =====
+new Chart(document.getElementById('chart13'), {
+  type: 'pie',
+  data: {
+    labels: ['每周2-3次','每周1次','每月1-2次','每日推送','拒绝任何消息推送'],
+    datasets: [{
+      data: [50, 45, 17, 10, 10],
+      backgroundColor: PIE_COLORS,
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: { ...commonPieOpts, plugins: { ...commonPieOpts.plugins, tooltip: makeTooltipOpts(132) } }
+});
+
+// ===== 第14题 水平柱状图（多选） =====
+new Chart(document.getElementById('chart14'), {
+  type: 'bar',
+  data: {
+    labels: ['广告消息过多刷屏','优惠力度低于校外平台','活动流程繁琐操作复杂','售后问题无人处理','群内氛围杂乱管理差','无任何情况会主动退出'],
+    datasets: [{
+      data: [87, 76, 76, 62, 53, 17],
+      backgroundColor: ['#E86452','#E86452','#F6BD16','#FF9845','#945FB9','#5AD8A6'],
+      borderRadius: 6,
+      barThickness: 30
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const pct = (ctx.raw / 132 * 100).toFixed(2);
+        return `${ctx.raw}人 (${pct}%)`;
+      }}}
+    },
+    scales: {
+      x: { beginAtZero: true, max: 100, title: { display: true, text: '选择人数（共132人，多选）' }, grid: { color: '#eee' } },
+      y: { grid: { display: false }, ticks: { font: { size: 12.5 } } }
+    },
+    animation: {
+      onComplete: function() {
+        const ctx = this.ctx;
+        ctx.font = '12px "PingFang SC"';
+        ctx.fillStyle = '#333';
+        this.data.datasets[0].data.forEach((val, i) => {
+          const meta = this.getDatasetMeta(0).data[i];
+          const pct = (val / 132 * 100).toFixed(1);
+          ctx.textAlign = 'left';
+          ctx.fillText(`${val} (${pct}%)`, meta.x + 6, meta.y + 4);
+        });
+      }
+    }
+  }
+});
+
+// ===== 第15题 饼图 =====
+new Chart(document.getElementById('chart15'), {
+  type: 'pie',
+  data: {
+    labels: ['指定宿舍楼下配送','门店现场即时自提','固定点位集中存放','不使用线上选购功能'],
+    datasets: [{
+      data: [90, 24, 13, 5],
+      backgroundColor: PIE_COLORS,
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: { ...commonPieOpts, plugins: { ...commonPieOpts.plugins, tooltip: makeTooltipOpts(132) } }
+});
+
+// ===== 第16题 水平柱状图（多选） =====
+new Chart(document.getElementById('chart16'), {
+  type: 'bar',
+  data: {
+    labels: ['定期抽奖免单活动','学生好物分享征集','组队拼单砍价活动','需求征集定制采购','闲置食品互换板块','不需要额外互动活动'],
+    datasets: [{
+      data: [82, 72, 61, 49, 41, 18],
+      backgroundColor: ['#5B8FF9','#5AD8A6','#F6BD16','#FF9845','#945FB9','#cccccc'],
+      borderRadius: 6,
+      barThickness: 30
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const pct = (ctx.raw / 132 * 100).toFixed(2);
+        return `${ctx.raw}人 (${pct}%)`;
+      }}}
+    },
+    scales: {
+      x: { beginAtZero: true, max: 100, title: { display: true, text: '选择人数（共132人，多选）' }, grid: { color: '#eee' } },
+      y: { grid: { display: false }, ticks: { font: { size: 12.5 } } }
+    },
+    animation: {
+      onComplete: function() {
+        const ctx = this.ctx;
+        ctx.font = '12px "PingFang SC"';
+        ctx.fillStyle = '#333';
+        this.data.datasets[0].data.forEach((val, i) => {
+          const meta = this.getDatasetMeta(0).data[i];
+          const pct = (val / 132 * 100).toFixed(1);
+          ctx.textAlign = 'left';
+          ctx.fillText(`${val} (${pct}%)`, meta.x + 6, meta.y + 4);
+        });
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
